@@ -4,7 +4,7 @@ const fileUpload = require("express-fileupload");
 const bodyParser = require("body-parser");
 const mysql = require("mysql");
 const path = require("path");
-const { user, password } = require("./config/database-config");
+const { host, user, password } = require("./config/database-config");
 
 // Create app
 const app = express();
@@ -14,7 +14,7 @@ const port = 5000;
 
 // Create connection to mysql database
 const database = mysql.createConnection({
-  host: "localhost",
+  host: host,
   user: user,
   password: password,
   database: "socka"
