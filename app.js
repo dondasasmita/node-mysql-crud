@@ -4,7 +4,15 @@ const fileUpload = require("express-fileupload");
 const bodyParser = require("body-parser");
 const mysql = require("mysql");
 const path = require("path");
-const { host, user, password } = require("./config/database-config");
+const { host, user, password, schema } = require("./config/database-config");
+const { getHomePage } = require("./routes/index");
+const {
+  addCustomerPage,
+  addCustomer,
+  editCustomerPage,
+  editCustomer,
+  deleteCustomer
+} = require("./routes/customer");
 
 // Create app
 const app = express();
@@ -17,7 +25,7 @@ const database = mysql.createConnection({
   host: host,
   user: user,
   password: password,
-  database: "socka"
+  database: schema
 });
 
 // Connect to the database
@@ -31,12 +39,20 @@ global.database = database;
 
 // Configure the middleware
 app.set("port", process.env.PORT || port); // set express to use this port
-app.set("views", __dirname + "/view"); // set express to look in this folder to render the view
+app.set("views", __dirname + "/views"); // set express to look in this folder to render the view
 app.set("view engine", "ejs"); //configure template engine
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json()); // parse from data client
 app.use(express.static(path.join(__dirname, "public"))); // configure express to use public folder
 app.use(fileUpload()); // configure fileupload
+
+// ROUTES
+app.get("/", getHomePage);
+app.get("/add", addCustomerPage);
+app.get("/edit/:id", editCustomerPage);
+app.post("/edit/:id", editCustomer);
+app.get("/delete/:id", deleteCustomer);
+app.post("/add", addCustomer);
 
 // set app to listen on the port
 app.listen(port, () => {

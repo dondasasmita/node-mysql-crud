@@ -1,14 +1,20 @@
-const getHomePage = (req, res) => {
-  let query = "SELECT * FROM `players` ORDER BY id ASC";
+/**
+ * This file contain the routes the handler to get home page.
+ */
 
-  // execute the query
-  database.query(query, (err, result) => {
-    if (err) {
-      res.redirect("/");
-    }
-    res.render("index.ejs", {
-      title: "Welcome to Socka | View Players",
-      players: result
+module.exports = {
+  getHomePage: (req, res) => {
+    let query = "SELECT * FROM `customers` ORDER BY id ASC";
+
+    // execute the query
+    database.query(query, (err, result) => {
+      if (err) {
+        res.redirect("/");
+      }
+      res.render("index.ejs", {
+        title: "Welcome to iWorkshop | View Customers",
+        customers: result
+      });
     });
-  });
+  }
 };
