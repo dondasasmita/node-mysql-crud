@@ -108,7 +108,7 @@ module.exports = {
       }
       res.render("edit-customer.ejs", {
         title: "Edit Customer",
-        player: result[0],
+        customer: result[0],
         message: ""
       });
     });
